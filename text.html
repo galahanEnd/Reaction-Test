@@ -9,6 +9,7 @@
       border: 1px solid black;
       margin: auto;
       text-align: center;
+      position: relative;
     }
     .box {
       width: 50px;
@@ -39,13 +40,21 @@
       end: undefined,
       diff: undefined,
     }
+    function randomNum(a = 0, b = 1) {
+      return Math.floor(Math.random() * b + 1 * a);
+    }
     function boxSpawner() {
-      
+      box.style.position = "absolute";
+      box.style.display = "box";
+      let rectOut = out.getBoundingClientRect();
+      box.style.left = Math.floor(Math.random() * 400) + "px";
+      box.style.top = Math.floor((Math.random() * 400)) + "px";
+      console.log(rectOut.width, rectOut.height, rectOut)
     }
     box.classList.add("box");
     box.style.height = "100px";
     box.style.width = "100px";
-    box.style.display = "none";
+    box.style.backgroundColor = "red";
     instruction.textContent = "Что бы проверить совю реакцию нажми на кнопку";
     let btnStrt = document.createElement("input");
     btnStrt.type = "button";
@@ -53,6 +62,12 @@
     out.appendChild(box);
     message.appendChild(instruction);
     message.appendChild(btnStrt);
+
+    btnStrt.addEventListener("click", () => {
+      let repeter = setInterval(() => {
+
+      }, )
+    })
     
   </script>
 </body>
