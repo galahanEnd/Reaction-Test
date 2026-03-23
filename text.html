@@ -34,23 +34,38 @@
     let message = document.querySelector(".message");
     let instruction = document.createElement("div");
     let box = document.createElement("div");
-    let result = [];
     let time = {
       start: undefined,
       end: undefined,
-      diff: undefined,
+      diff: [],
     }
     function randomNum(a = 0, b = 1) {
       return Math.floor(Math.random() * b + 1 * a);
     }
-    function boxSpawner() {
-      box.style.position = "absolute";
-      box.style.display = "box";
-      let rectOut = out.getBoundingClientRect();
-      box.style.left = Math.floor(Math.random() * 400) + "px";
-      box.style.top = Math.floor((Math.random() * 400)) + "px";
-      console.log(rectOut.width, rectOut.height, rectOut)
+    function showRes() {
+      box.style.visibility = "hidden";
+      btnStrt.disabled = "";
+      for (let i = 0; i < time.diff.length; i += 1){
+        instruction.textContent += `
+        ${i+1}: ${time.diff[i]}`;
+      }
+      instruction.textContent += "Нажми Play что бы попробовать еще раз";
+      time.diff = [];
     }
+    function restart() {
+      instruction.textContent = "Начинай кликать";
+    }
+    function boxSpawner() {
+      console.log(box.style.position);
+      box.style.position = "absolute";
+      box.style.visibility = "";
+      let rectOut = out.getBoundingClientRect();
+      box.style.left = randomNum(0, 400) + "px";
+      box.style.top = randomNum(0, 400) + "px";
+      console.log(rectOut.width, rectOut.height, rectOut)
+      time.start = Date.now();
+    }
+    box.style.visibility = "hidden";
     box.classList.add("box");
     box.style.height = "100px";
     box.style.width = "100px";
@@ -64,9 +79,22 @@
     message.appendChild(btnStrt);
 
     btnStrt.addEventListener("click", () => {
-      let repeter = setInterval(() => {
-
-      }, )
+      instruction.textContent = ";"
+     boxSpawner();
+     event.target.disabled = "false";
+     let id = setTimeout(() => {
+      showRes();
+     }, 10000);
+    })
+    document.addEventListener("click", (e) => {
+      if(e.target.className !== "box") return;
+      boxSpawner();
+    });
+    document.addEventListener("mousedown", (e) => {
+      if(e.target.className !== "box") return;
+      time.end = Date.now();
+      time.diff.push((time.end - time.start) / 1000);
+      console.log(time.diff);
     })
     
   </script>
